@@ -21,6 +21,7 @@ class Trade extends Component {
     differenceA: [],
     differenceB : []
    }
+   
    this.insertPlayerA = this.insertPlayerA.bind(this);
    this.insertPlayerB = this.insertPlayerB.bind(this);
    this.removePlayerB = this.removePlayerB.bind(this);
