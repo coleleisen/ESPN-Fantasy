@@ -3,7 +3,6 @@ import TradeTable from "./TradeTable";
 
 class Trade extends Component {
  
-
  constructor(props){
    super(props)
    this.state={
