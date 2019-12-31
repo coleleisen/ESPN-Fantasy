@@ -28,8 +28,8 @@ class Fetch extends Component {
 
         };
     
-        //https://obscure-fjord-24529.herokuapp.com/fetch
-        axios.post(`http://localhost:3001/fetch`, l)
+        
+        axios.post(`https://obscure-fjord-24529.herokuapp.com/fetch`, l)
           .then(res => {
             console.log(res);
             console.log(res.data);

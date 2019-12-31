@@ -24,8 +24,8 @@ class TradeTable extends Component {
     <ul class="dropdown-menu"  style={{backgroundColor:"red", background : "rgb(24,26,27"}}>
     {this.props.team.players ? this.props.team.players.map((player, i)=>{
         let e;
-        {player.injured ? e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}} disabled>{player.name}</button></li>
-         : e =<li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}} onClick={()=> this.props.insertPlayer(player.name)}>{player.name}</button></li>} 
+        {player.injured ? e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",border : "none", color : "white"}} disabled>{player.name}</button></li>
+         : e =<li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",border : "none", color : "white"}} onClick={()=> this.props.insertPlayer(player.name)}>{player.name}</button></li>} 
         return e;
 }) : <h2>error no players array</h2>}   
     </ul>
