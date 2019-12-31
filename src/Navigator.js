@@ -17,20 +17,20 @@ class Navigator extends Component {
     <HashRouter>
        
           <NavLink to="/standings" >
-      <button type="button" className="btn-lg" style = {{width : "30%"}}>
+      <button type="button" className="btn-lg" style = {{width : "30%", backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}}>
             Standings
      </button>
           </NavLink>   
           <NavLink to="/trade" >
      
-      <button type="button" className="btn-lg" style = {{width : "30%"}}>    
+      <button type="button" className="btn-lg" style = {{width : "30%", backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}}>    
             Trade
      </button>
      
           </NavLink> 
           <NavLink to="/matchup" >
      
-      <button type="button" className="btn-lg" style = {{width : "30%"}}>    
+      <button type="button" className="btn-lg" style = {{width : "30%", backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}}>    
             Matchup
      </button>
      

@@ -52,7 +52,7 @@ class Fetch extends Component {
         
          
           {this.state.collapse ? (<h2>
-            <button type="button" onClick={this.collapser} className="btn-lg">
+            <button type="button" onClick={this.collapser} className="btn-lg" style={{backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}}>
               Change League
             </button>
 
@@ -62,7 +62,7 @@ class Fetch extends Component {
           
           <div class = "form-group">
            <h2>
-           <span class="label label-danger" > Enter League Name Below</span>
+           <span class="label label-danger" style={{backgroundColor : "#cc0000"}} > Enter League Name Below</span>
          
           <span class="glyphicon glyphicon-menu-down"></span>
        </h2>

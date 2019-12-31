@@ -21,7 +21,7 @@ class Trade extends Component {
     differenceA: [],
     differenceB : []
    }
-   
+
    this.insertPlayerA = this.insertPlayerA.bind(this);
    this.insertPlayerB = this.insertPlayerB.bind(this);
    this.removePlayerB = this.removePlayerB.bind(this);
@@ -295,13 +295,13 @@ this.setState({playersA : play, catAvgA : catterA, catAvgB : catterB, difference
     <div className="float-left">
       <h2>Team A</h2>
     <div class="dropdown" style={{margin : "10px"}}>
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"red"}}>Select Team A
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"red", background : "red"}}>Select Team A
     <span class="caret"></span></button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu" style={{backgroundColor:"red", background : "rgb(24,26,27"}}>
     {this.props.teams ? this.props.teams.map((team, i)=>{
       let e;
-      {this.state.teamNameB != team.teamName ?  e = <li key={i}><button className="btn" onClick={this.tradeTeamA}>{team.teamName}</button></li> : 
-    e = <li key={i}><button className="btn" disabled>{team.teamName}</button></li> }
+      {this.state.teamNameB != team.teamName ?  e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}} onClick={this.tradeTeamA}>{team.teamName}</button></li> : 
+    e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white", background : "rgb(24,26,27"}} disabled>{team.teamName}</button></li> }
    return e;
     
 }) : <h2>error no teams array</h2>}   
@@ -311,13 +311,13 @@ this.setState({playersA : play, catAvgA : catterA, catAvgB : catterB, difference
     <div className="float-right">
       <h2>Team B</h2>
     <div class="dropdown" style={{margin : "10px"}}>
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"red"}}>Select Team B
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#cc0000", background : "#cc0000"}}>Select Team B
     <span class="caret"></span></button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu" style={{backgroundColor:"#cc0000", background : "rgb(24,26,27"}}>
     {this.props.teams ? this.props.teams.map((team, i)=>{
       let e;
-      {this.state.teamNameA != team.teamName ?  e = <li key={i}><button className="btn" onClick={this.tradeTeamB}>{team.teamName}</button></li> : 
-      e = <li key={i}><button className="btn" disabled>{team.teamName}</button></li>}
+      {this.state.teamNameA != team.teamName ?  e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}} onClick={this.tradeTeamB}>{team.teamName}</button></li> : 
+      e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}} disabled>{team.teamName}</button></li>}
       
     return e;
     
