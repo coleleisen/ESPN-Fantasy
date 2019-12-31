@@ -33,7 +33,7 @@ class Trade extends Component {
   let play = [...this.state.playersB];
   console.log("bonjour")
   let catterB = JSON.parse(JSON.stringify(this.props.teams[this.state.indexB].catAvg));
-  let catterA = null;
+  let catterA = this.state.OgCatAvgA;
   if(this.state.indexA){
     catterA = JSON.parse(JSON.stringify(this.props.teams[this.state.indexA].catAvg));
   }
@@ -134,7 +134,7 @@ this.setState({playersB : play, catAvgA : catterA, catAvgB : catterB, difference
 
 insertPlayerA = (name)=>{
   let play = [...this.state.playersA];
-  let catterB=null;
+  let catterB=this.state.OgCatAvgB;
   if(this.state.indexB){
      catterB = JSON.parse(JSON.stringify(this.props.teams[this.state.indexB].catAvg));
   }
@@ -325,9 +325,9 @@ this.setState({playersA : play, catAvgA : catterA, catAvgB : catterB, difference
     </ul>
     </div>
     </div> 
-{this.state.triggerA ? <div><TradeTable catAvg = {this.state.catAvgA} team = {this.props.teams[this.state.indexA]} playerName = {this.state.playersA} insertPlayer ={this.insertPlayerA} removePlayer={  this.removePlayerA } difference = {this.state.differenceA}> </TradeTable> </div>  : <h3>Team A</h3>}
+{this.state.triggerA && this.state.catAvgA ? <div><TradeTable catAvg = {this.state.catAvgA} team = {this.props.teams[this.state.indexA]} playerName = {this.state.playersA} insertPlayer ={this.insertPlayerA} removePlayer={  this.removePlayerA } difference = {this.state.differenceA}> </TradeTable> </div>  : <h3>Team A</h3>}
 <br></br>
-{this.state.triggerB ? <div><TradeTable catAvg = {this.state.catAvgB} team = {this.props.teams[this.state.indexB]} playerName = {this.state.playersB} insertPlayer ={ this.insertPlayerB } removePlayer={  this.removePlayerB } difference = {this.state.differenceB}></TradeTable> </div> : <h3>Team B</h3>}
+{this.state.triggerB && this.state.catAvgB?  <div><TradeTable catAvg = {this.state.catAvgB} team = {this.props.teams[this.state.indexB]} playerName = {this.state.playersB} insertPlayer ={ this.insertPlayerB } removePlayer={  this.removePlayerB } difference = {this.state.differenceB}></TradeTable> </div> : <h3>Team B</h3>}
     </div>
     );
   }
