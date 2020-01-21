@@ -53,9 +53,6 @@ class Trade extends Component {
             diffA=new Array(catterA.length).fill(0);
             diffB=new Array(catterB.length).fill(0);
             //if its an even quantity trade
-            //subtract playersA from catterA and add playersB to catterA 
-            //keep array to store difference in each cat
-            //subtract playersB from catterB and add playersA to catterB
             for(var j =0 ; j < this.state.playersA.length ; j++){
               for(var i = 0;i < catterA.length ;i++){
                 if(catterA[i].name!=="FG%" && catterA[i].name !=="FT%" && catterB[i].name !=="FG%" && catterB[i]){        
