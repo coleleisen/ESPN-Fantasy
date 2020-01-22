@@ -6,16 +6,16 @@ class Matchup extends Component {
   constructor(props){
     super(props)
     this.state={
-     teamNameAa : "",
-     teamNameBb : "",
-     triggerAa : false,
-     triggerBb : false,
-     indexAa : null,
-     indexBb : null,
-     catAvgAa : [],
-     catAvgBb : [],
-     differenceAa: [],
-     differenceBb :[],
+     teamNameA : "",
+     teamNameB : "",
+     triggerA : false,
+     triggerB : false,
+     indexA : null,
+     indexB: null,
+     catAvgA : [],
+     catAvgB : [],
+     differenceA: [],
+     differenceB :[],
      countA : 0,
      countB : 0
     }
@@ -90,7 +90,7 @@ class Matchup extends Component {
       }
     }
   }
-     this.setState({ teamNameAa: s, triggerAa : true, indexAa : n, catAvgAa : catterA, differenceAa : differA, differenceBb : differB, countA : counterA, countB : counterB});
+     this.setState({ teamNameA: s, triggerA : true, indexA : n, catAvgA : catterA, differenceA : differA, differenceB : differB, countA : counterA, countB : counterB});
    }
    tradeTeamB = event => {
      let s =  event.currentTarget.textContent
@@ -160,7 +160,7 @@ class Matchup extends Component {
         }
      }
      
-     this.setState({ teamNameBb: s , triggerBb : true, indexBb : n, catAvgBb : catterB, differenceAa : differA, differenceBb : differB, countA : counterA, countB : counterB});
+     this.setState({ teamNameB: s , triggerB : true, indexB : n, catAvgB : catterB, differenceA : differA, differenceB : differB, countA : counterA, countB : counterB});
    }
   render() {
     return (
@@ -180,7 +180,7 @@ class Matchup extends Component {
         <ul class="dropdown-menu" style={{backgroundColor:"red", background : "rgb(24,26,27"}}>
        {this.props.teams ? this.props.teams.map((team, i)=>{
             let e;
-            {this.state.teamNameBb != team.teamName ?  e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",border : "none", color : "white"}} onClick={this.tradeTeamA}>{team.teamName}</button></li> : 
+            {this.state.teamNameB != team.teamName ?  e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",border : "none", color : "white"}} onClick={this.tradeTeamA}>{team.teamName}</button></li> : 
             e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",border : "none", color : "white", background : "rgb(24,26,27"}} disabled>{team.teamName}</button></li> }
             return e;
     
@@ -196,7 +196,7 @@ class Matchup extends Component {
       <ul class="dropdown-menu" style={{backgroundColor:"#cc0000", background : "rgb(24,26,27", borderColor : "rgb(24,26,27"}}>
        {this.props.teams ? this.props.teams.map((team, i)=>{
          let e;
-         {this.state.teamNameAa != team.teamName ?  e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",border : "none", color : "white"}} onClick={this.tradeTeamB}>{team.teamName}</button></li> : 
+         {this.state.teamNameA != team.teamName ?  e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",border : "none", color : "white"}} onClick={this.tradeTeamB}>{team.teamName}</button></li> : 
          e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",border : "none", color : "white"}} disabled>{team.teamName}</button></li>}
       
          return e;
@@ -206,12 +206,12 @@ class Matchup extends Component {
       </div>
       </div> 
       
-    {this.state.triggerAa && this.state.catAvgAa ? <div> <h3>{this.state.teamNameAa}</h3> <div><CatTable  playerStats = {this.state.catAvgAa} difference = {this.state.differenceAa}> </CatTable> </div></div>  : <h3>Team A</h3>}
+    {this.state.triggerA && this.state.catAvgA ? <div> <h3>{this.state.teamNameA}</h3> <div><CatTable  playerStats = {this.state.catAvgA} difference = {this.state.differenceA}> </CatTable> </div></div>  : <h3>Team A</h3>}
       <br></br>
-      {this.state.triggerBb && this.state.catAvgBb? <div> <h3>{this.state.teamNameBb}</h3> <div><CatTable  playerStats = {this.state.catAvgBb} difference = {this.state.differenceBb}> </CatTable> </div></div>  : <h3>Team B</h3>}
+      {this.state.triggerB && this.state.catAvgB? <div> <h3>{this.state.teamNameB}</h3> <div><CatTable  playerStats = {this.state.catAvgB} difference = {this.state.differenceB}> </CatTable> </div></div>  : <h3>Team B</h3>}
       <br></br>
    
-    {this.state.triggerAa && this.state.triggerBb ?  this.state.countA > this.state.countB ? <div><h3>Winner : {this.state.teamNameAa.substr(1)}</h3> <h3>{this.state.countA} - {this.state.countB}</h3></div> : <div><h3>Winner : {this.state.teamNameBb.substr(1)}</h3> <h3>{this.state.countB} - {this.state.countA}</h3></div> : <h3></h3>}
+    {this.state.triggerA && this.state.triggerB ?  this.state.countA > this.state.countB ? <div><h3>Winner : {this.state.teamNameA.substr(1)}</h3> <h3>{this.state.countA} - {this.state.countB}</h3></div> : <div><h3>Winner : {this.state.teamNameB.substr(1)}</h3> <h3>{this.state.countB} - {this.state.countA}</h3></div> : <h3></h3>}
       </div>
     );
   }
