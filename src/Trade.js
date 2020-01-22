@@ -96,16 +96,16 @@ class Trade extends Component {
                   let n3 = catterA[i-2].number / catterA[i-1].number
                   n3 = n3.toFixed(3);
                   n3 = parseFloat(n3);
-                  diffB[i] = catterA[i].number - n3;
-                  diffB[i] = diffB[i].toFixed(3);
-                  diffB[i] = parseFloat(diffB[i])
+                  diffA[i] += n3 - catterA[i].number;
+                  diffA[i] = diffA[i].toFixed(3);
+                  diffA[i] = parseFloat(diffA[i])
                   catterA[i].number = n3;
                   let n4 = catterB[i-2].number / catterB[i-1].number
                   n4 = n4.toFixed(3);
                   n4 = parseFloat(n4);
-                  diffA[i] = catterB[i].number - n4;
-                  diffA[i] = diffA[i].toFixed(3);
-                  diffA[i] = parseFloat(diffA[i])
+                  diffB[i] += n4 - catterB[i].number;
+                  diffB[i] = diffB[i].toFixed(3);
+                  diffB[i] = parseFloat(diffB[i])
                   catterB[i].number = n4;
                 }
               }
@@ -199,19 +199,19 @@ insertPlayerA = (name)=>{
              
                 }
                 else{ //is %
-                  let n3 = catterA[i-2].number / catterA[i-1].number;
+                  let n3 = catterA[i-2].number / catterA[i-1].number
                   n3 = n3.toFixed(3);
                   n3 = parseFloat(n3);
-                  diffB[i] = catterA[i].number - n3;
-                  diffB[i] = diffB[i].toFixed(3); 
-                  diffB[i] = parseFloat(diffB[i]) 
-                  catterA[i].number = n3;
-                  let n4 = catterB[i-2].number / catterB[i-1].number;
-                  n4 = n4.toFixed(3);
-                  n4 = parseFloat(n4);
-                  diffA[i] = catterB[i].number - n4;
+                  diffA[i] += n3 - catterA[i].number;
                   diffA[i] = diffA[i].toFixed(3);
                   diffA[i] = parseFloat(diffA[i])
+                  catterA[i].number = n3;
+                  let n4 = catterB[i-2].number / catterB[i-1].number
+                  n4 = n4.toFixed(3);
+                  n4 = parseFloat(n4);
+                  diffB[i] += n4 - catterB[i].number;
+                  diffB[i] = diffB[i].toFixed(3);
+                  diffB[i] = parseFloat(diffB[i])
                   catterB[i].number = n4;
                 }
               }
