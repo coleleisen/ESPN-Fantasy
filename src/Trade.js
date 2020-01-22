@@ -34,7 +34,7 @@ class Trade extends Component {
   console.log("bonjour")
   let catterB = JSON.parse(JSON.stringify(this.props.teams[this.state.indexB].catAvg));
   let catterA = this.state.OgCatAvgA;
-  if(this.state.indexA){
+  if(this.state.triggerA){
     catterA = JSON.parse(JSON.stringify(this.props.teams[this.state.indexA].catAvg));
   }
   let diffA=null;
@@ -132,7 +132,7 @@ this.setState({playersB : play, catAvgA : catterA, catAvgB : catterB, difference
 insertPlayerA = (name)=>{
   let play = [...this.state.playersA];
   let catterB=this.state.OgCatAvgB;
-  if(this.state.indexB){
+  if(this.state.triggerB){
      catterB = JSON.parse(JSON.stringify(this.props.teams[this.state.indexB].catAvg));
   }
   let catterA = JSON.parse(JSON.stringify(this.props.teams[this.state.indexA].catAvg));
