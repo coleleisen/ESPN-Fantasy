@@ -5,7 +5,7 @@ class StandingsTable extends Component {
     constructor(props){
         super(props)
         this.state={
-            selected : -1,
+            selected : 1000,
             teams : [],
             og : []
         }
@@ -20,7 +20,13 @@ class StandingsTable extends Component {
             table = JSON.parse(JSON.stringify(this.state.og));
         }
         else{
-            table.sort((a,b) =>  b.catAvg[index].number  - a.catAvg[index].number );
+            if(this.state.selected===index){
+                table.reverse();
+            }
+            else{
+                table.sort((a,b) =>  b.catAvg[index].number  - a.catAvg[index].number );
+            }
+            
         }
         this.setState({teams : table, selected : index})
     }
@@ -30,7 +36,7 @@ class StandingsTable extends Component {
     <table class="table">
     <thead class="thead-dark">
     <tr>
-        <th scope="col" key={1000} style={{textAlign : "center"}} data-column={1000} onClick={()=> this.sortTable(1000)} ><p>TEAM <i class="glyphicon glyphicon-sort"></i></p></th>
+        <th scope="col" key={1000} style={{textAlign : "center"}} data-column={1000} onClick={()=> this.sortTable(1000)} >TEAM <i class="glyphicon glyphicon-sort"></i></th>
          
         {this.props.leagueAverage.map((cat, i)=>{
             let e;

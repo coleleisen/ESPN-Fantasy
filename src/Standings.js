@@ -11,7 +11,7 @@ class Standings extends Component {
         <p>Compare your averages to other teams and the league average</p>
         <h3>League Averages</h3>
         <CatTable playerStats = {this.props.leagueAverage}></CatTable>
-        <p>Click a category to sort the table by the specified category</p>
+        <p>Click a category to sort the table by the specified category</p><br></br>
         <StandingsTable teams = {teamer} leagueAverage = {this.props.leagueAverage}></StandingsTable>
       </div>
     );
