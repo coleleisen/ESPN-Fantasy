@@ -1,3 +1,6 @@
+This app is made for people with ESPN fantasy sports leagues. It is setup to be extended functionality for rotisserie based fantasy leagues, if your league is not rotisserie this app is not useful. To view your league in the app you will have to add your league to our database with the add league button. Once your league is in our database you can view it in our app. There are 3 main sections to our application, standings, matchup and trade. The trade section allows you to view the statistical breakdown by category of potential trades. The matchup category lets you compare head to head matchups of your competitors based on your teams averages. The standings section lets you view every team in your league and their statistical averages by category. You may sort the teams by specific categories to view league leaders in certain categories. 
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
