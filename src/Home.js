@@ -12,13 +12,13 @@ class Home extends Component {
       <div class="container-fluid">
           <div class="row">
           <div class="col-lg-2" >
-              ads
+              <p class="ads">ads</p>
           </div>
           <div class="col-lg-8" >        
             <Fetch></Fetch>
           </div>
           <div class="col-lg-2" >
-              ads
+            <p class="ads">ads</p>      
           </div>
      </div>       
     </div>

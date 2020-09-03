@@ -15,7 +15,14 @@ img {
   max-height: 100%;
 }
 
-
+@media only screen and (max-width: 1000px){
+  .img-responsive{
+    display : none;
+  }
+  .ads{
+    display : none;
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

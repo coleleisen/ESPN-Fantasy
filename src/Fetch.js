@@ -70,7 +70,7 @@ class Fetch extends Component {
        <h2 style={{color : "red"}}>
        <span class="glyphicon glyphicon-chevron-down"></span>
        </h2>
-         <input type="text" name="name" class="form-control" style={{margin : "10px"}}  onChange={this.handleChange} />
+         <input type="text" name="name" default="DGFBL"class="form-control" style={{margin : "10px"}}  onChange={this.handleChange} />
        
          <button type="submit" class="btn btn-outline-danger">
          <span class="glyphicon glyphicon-search"></span>
