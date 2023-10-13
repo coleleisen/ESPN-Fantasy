@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/ESPN-Fantasy/precache-manifest.5560b6ddf52f683be9855b3037dc88d0.js"
+  "/ESPN-Fantasy/precache-manifest.eee0ee192780a954825dd77f472ea15b.js"
 );
 
 self.addEventListener('message', (event) => {

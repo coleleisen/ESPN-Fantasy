@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2d37d431101ac2396d367cc3e906d817",
+    "revision": "1bcbe94b5d5c9053c3328fe67a2744d5",
     "url": "/ESPN-Fantasy/index.html"
   },
   {
-    "revision": "7a9c51f474ba9cd9f10b",
+    "revision": "dd8ecae3275100976b9c",
     "url": "/ESPN-Fantasy/static/css/main.b4cf2adc.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ESPN-Fantasy/static/js/2.2fd709ee.chunk.js.LICENSE"
   },
   {
-    "revision": "7a9c51f474ba9cd9f10b",
-    "url": "/ESPN-Fantasy/static/js/main.315b0a1c.chunk.js"
+    "revision": "dd8ecae3275100976b9c",
+    "url": "/ESPN-Fantasy/static/js/main.77c84632.chunk.js"
   },
   {
     "revision": "11af28855440be9d13bd",
