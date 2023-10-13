@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/static/css/main.b4cf2adc.chunk.css",
-    "main.js": "/static/js/main.799e4393.chunk.js",
-    "main.js.map": "/static/js/main.799e4393.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.4d36e24c.js",
-    "runtime-main.js.map": "/static/js/runtime-main.4d36e24c.js.map",
-    "static/js/2.2fd709ee.chunk.js": "/static/js/2.2fd709ee.chunk.js",
-    "static/js/2.2fd709ee.chunk.js.map": "/static/js/2.2fd709ee.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.7234298be8c524067a8c513530ffebd0.js": "/precache-manifest.7234298be8c524067a8c513530ffebd0.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.b4cf2adc.chunk.css.map": "/static/css/main.b4cf2adc.chunk.css.map",
-    "static/js/2.2fd709ee.chunk.js.LICENSE": "/static/js/2.2fd709ee.chunk.js.LICENSE"
+    "main.css": "/ESPN-Fantasy/static/css/main.b4cf2adc.chunk.css",
+    "main.js": "/ESPN-Fantasy/static/js/main.77c84632.chunk.js",
+    "main.js.map": "/ESPN-Fantasy/static/js/main.77c84632.chunk.js.map",
+    "runtime-main.js": "/ESPN-Fantasy/static/js/runtime-main.a9b75b2c.js",
+    "runtime-main.js.map": "/ESPN-Fantasy/static/js/runtime-main.a9b75b2c.js.map",
+    "static/js/2.2fd709ee.chunk.js": "/ESPN-Fantasy/static/js/2.2fd709ee.chunk.js",
+    "static/js/2.2fd709ee.chunk.js.map": "/ESPN-Fantasy/static/js/2.2fd709ee.chunk.js.map",
+    "index.html": "/ESPN-Fantasy/index.html",
+    "precache-manifest.eee0ee192780a954825dd77f472ea15b.js": "/ESPN-Fantasy/precache-manifest.eee0ee192780a954825dd77f472ea15b.js",
+    "service-worker.js": "/ESPN-Fantasy/service-worker.js",
+    "static/css/main.b4cf2adc.chunk.css.map": "/ESPN-Fantasy/static/css/main.b4cf2adc.chunk.css.map",
+    "static/js/2.2fd709ee.chunk.js.LICENSE": "/ESPN-Fantasy/static/js/2.2fd709ee.chunk.js.LICENSE"
   },
   "entrypoints": [
-    "static/js/runtime-main.4d36e24c.js",
+    "static/js/runtime-main.a9b75b2c.js",
     "static/js/2.2fd709ee.chunk.js",
     "static/css/main.b4cf2adc.chunk.css",
-    "static/js/main.799e4393.chunk.js"
+    "static/js/main.77c84632.chunk.js"
   ]
 }
