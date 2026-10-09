@@ -1,9 +1,39 @@
-This app is made for people with ESPN fantasy sports leagues. It is setup to be extended functionality for rotisserie based fantasy leagues, if your league is not rotisserie this app is not useful. Add league button is coming soon. For now check out how our app works by typing in my league DGFBL. There are 3 main sections to my application, standings, matchup and trade. The trade section allows you to view the statistical breakdown by category of potential trades. This is very useful when analyzing trades for potential trade vetos or to see how the trade helps your team. The matchup category lets you compare head to head matchups of your competitors based on your teams averages. This helps you see how you stack up against the team you are facing to assist you in making the right decisions for add/drops or other decisions. The standings section lets you view every team in your league and their statistical averages by category. You may sort the teams by specific categories to view league leaders in certain categories. 
+ESPN Fantasy adds roster analysis to saved ESPN basketball and hockey leagues, including category and points scoring. Explore the league overview, sortable standings, team strength heatmap, head-to-head matchups, and trade impact previews. The interface supports desktop and mobile layouts and uses data from the companion ESPN-API project.
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
+
+### Local preview with saved league data
+
+Run the local launcher from this project:
+
+```powershell
+npm.cmd run start:local
+```
+
+It starts the companion API on port 3002 and the frontend on port 3001 as hidden background processes, and waits for the frontend to respond. It reuses services already started by the launcher and writes logs to the ignored `.local` directory. Run it again after a restart or if the preview reports connection refused. The API project must be in the neighboring `ESPN-API` directory with its dependencies and database configuration in place.
+
+The development server proxies league requests to the local API; it reads the league snapshots already saved in the database. To run the services manually instead:
+
+```powershell
+# In C:\Projects\ESPN-API (requires the existing database configuration)
+$env:PORT = '3002'
+npm.cmd start
+
+# In a second terminal, in C:\Projects\ESPN-Fantasy
+$env:PORT = '3001'
+npm.cmd start
+```
+
+Open `http://localhost:3001/?league=IFHL#/overview` for IFHL or `http://localhost:3001/?league=DGFBL#/overview` for DGFBL. League links load automatically and retain the selected section on refresh. Existing standings links still work. When available, the header shows when the data was last saved; opening a league does not run a new ESPN scrape.
+
+The Overview shows roster counts, a selectable category leaderboard, and category leaders. Points leagues open with fantasy points (FPTS) selected. The Heatmap compares category ranks with a values toggle, team highlighting, and tappable cells that explain the difference from the league average. Equal values share a rank; missing values remain unranked. Lower-is-better statistics honor the scoring metadata, and intermediate shooting totals are excluded from these summaries.
+
+Equal-size trade previews include a Trade impact summary with before/after values, fantasy points for points leagues, improved/declined category counts, and category rank changes. Both participating rosters are updated together when calculating ranks. These are comparisons of saved roster statistics, not official league standings or forecasts of future games.
+
+Production continues to use `https://espnapp.onrender.com`. Set `REACT_APP_API_URL` at build time to use another API host.
 
 In the project directory, you can run:
 

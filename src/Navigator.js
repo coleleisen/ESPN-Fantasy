@@ -1,45 +1,32 @@
-import React, { Component } from "react";
-import {
-  Route,
-  NavLink,
-  HashRouter
-} from "react-router-dom";
-import Scrape from "./Scrape";
-import Fetch from "./Fetch";
+import React from "react";
+import { Route, NavLink, HashRouter, Switch, Redirect } from "react-router-dom";
 import Trade from "./Trade";
 import Standings from "./Standings";
 import Matchup from "./Matchup";
+import Overview from "./Overview";
+import Heatmap from "./Heatmap";
+import { Icon } from "./UI";
 
-class Navigator extends Component {
-  render() {
-    return (
-      
+function Navigator({ teams, leagueAverage, scoringType }) {
+  return (
     <HashRouter>
-       
-          <NavLink to="/standings" >
-      <button type="button" className="btn-lg" style = {{width : "30%", backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}}>
-            Standings
-     </button>
-          </NavLink>   
-          <NavLink to="/trade" >
-     
-      <button type="button" className="btn-lg" style = {{width : "30%", backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}}>    
-            Trade
-     </button>
-     
-          </NavLink> 
-          <NavLink to="/matchup" >
-     
-      <button type="button" className="btn-lg" style = {{width : "30%", backgroundColor : "rgb(24, 26, 27)",borderColor : "rgb(24, 26, 27)", color : "white"}}>    
-            Matchup
-     </button>
-     
-          </NavLink> 
-      <Route path="/trade"  render={(props) => <Trade {...props} teams={this.props.teams} leagueAverage ={this.props.leagueAverage} />}/>
-      <Route path="/standings"  render={(props) => <Standings {...props} teams={this.props.teams} leagueAverage ={this.props.leagueAverage} />} />
-      <Route path="/matchup"  render={(props) => <Matchup {...props} teams={this.props.teams} leagueAverage ={this.props.leagueAverage} />}/>
+      <nav className="league-navigation" aria-label="League sections">
+        <NavLink to="/overview"><Icon name="overview" />Overview</NavLink>
+        <NavLink to="/standings"><Icon name="chart" />Standings</NavLink>
+        <NavLink to="/heatmap"><Icon name="heatmap" />Heatmap</NavLink>
+        <NavLink to="/matchup"><Icon name="matchup" />Matchup</NavLink>
+        <NavLink to="/trade"><Icon name="exchange" />Trade<span className="nav-long-label"> analyzer</span></NavLink>
+      </nav>
+      <Switch>
+        <Route path="/overview" render={() => <Overview teams={teams} leagueAverage={leagueAverage} scoringType={scoringType} />} />
+        <Route path="/heatmap" render={() => <Heatmap teams={teams} leagueAverage={leagueAverage} scoringType={scoringType} />} />
+        <Route path="/trade" render={() => <Trade teams={teams} leagueAverage={leagueAverage} scoringType={scoringType} />} />
+        <Route path="/standings" render={() => <Standings teams={teams} leagueAverage={leagueAverage} />} />
+        <Route path="/matchup" render={() => <Matchup teams={teams} leagueAverage={leagueAverage} scoringType={scoringType} />} />
+        <Redirect to="/overview" />
+      </Switch>
     </HashRouter>
-    )}
+  );
 }
- 
+
 export default Navigator;

@@ -1,30 +1,21 @@
-import React, { Component } from "react";
-
-import Scrape from "./Scrape";
+import React from "react";
 import Fetch from "./Fetch";
-import Trade from "./Trade";
+import { Icon } from "./UI";
 
-class Home extends Component {
-  render() {
-    return (
-      <div class="text-center">
-        <h1>ESPN Fantasy Sports</h1>
-      <div class="container-fluid">
-          <div class="row">
-          <div class="col-lg-2" >
-              <p class="ads">ads</p>
-          </div>
-          <div class="col-lg-8" >        
-            <Fetch></Fetch>
-          </div>
-          <div class="col-lg-2" >
-            <p class="ads">ads</p>      
-          </div>
-     </div>       
+function Home() {
+  return (
+    <div className="app-shell">
+      <a className="skip-link" href="#main-content" onClick={event => { event.preventDefault(); document.getElementById("main-content").focus(); }}>Skip to content</a>
+      <header className="site-header">
+        <div className="header-inner">
+          <div className="brand"><span className="brand-symbol"><Icon name="chart" /></span><div><span className="brand-name">ESPN <span>Fantasy</span></span><span className="brand-caption">YOUR LEAGUE. YOUR EDGE.</span></div></div>
+          <span className="header-label">Fantasy sports, in focus<span className="accent-dot" /></span>
+        </div>
+      </header>
+      <main id="main-content" className="main-content" tabIndex="-1"><Fetch /></main>
+      <footer className="site-footer"><span>Built for the way you play.</span><span>Independent fantasy tools for ESPN leagues.</span></footer>
     </div>
-    </div>
-    );
-  }
+  );
 }
- 
+
 export default Home;

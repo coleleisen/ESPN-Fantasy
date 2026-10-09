@@ -1,57 +1,23 @@
-import React, { Component } from "react";
- 
-class CatTable extends Component {
-  render() {
-    let to =-1 ;
-    return (
-      <div >
-       <table class="table">
-  <thead class="thead-dark">
-    <tr>
-    {this.props.playerStats.map((stat, i)=>{
-          if(stat.name=="TO"){
-            to = i;
-          }
-          return(
-          <th key={i} scope="col">{stat.name}</th>
-          )})}
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    {this.props.playerStats.map((stat, i)=>{
-          return(
-          <th key = {i}scope="row">{stat.number}</th>
-          )})} 
-          </tr>
-          <tr>
-     {this.props.difference ? this.props.difference.map((diff, i)=> {
-       let e;
-       let style = {color : "green"}
-       let g = <span class="  glyphicon glyphicon-arrow-up" style={{color : "green"}}></span> 
-       if(i==to){
-        if(diff.toString().charAt(0)!='-'){
-          style = {color : "red"}
-          g = <span class="  glyphicon glyphicon-arrow-down" style={{color : "red"}}></span> 
-        }
-       }
-       else{
-        if(diff.toString().charAt(0)=='-'){
-          style = {color : "red"}
-          g = <span class="  glyphicon glyphicon-arrow-down" style={{color : "red"}}></span> 
-        }
-       }
-      
+import React from "react";
+import { lowerIsBetter } from "./statistics";
+import { Icon } from "./UI";
 
-       {e= <th key ={i} style={style} scope="row">{diff}{g}</th>}
-       return(e)}) : <p></p>}
-       </tr>
-    
-    </tbody>
-    </table>       
-      </div>
-    );
-  }
+function CatTable({ playerStats, difference, label = "Category statistics" }) {
+  return (
+    <div className="table-scroll" role="region" aria-label={label + ", scroll for more categories"} tabIndex="0">
+      <table className="data-table category-table" aria-label={label}>
+        <thead><tr>{playerStats.map((stat, i) => <th key={i} scope="col">{stat.name}</th>)}</tr></thead>
+        <tbody>
+          <tr>{playerStats.map((stat, i) => <td key={i}>{stat.number}</td>)}</tr>
+          {difference && <tr className="difference-row">{difference.map((diff, i) => {
+            const value = Number(diff);
+            const improved = lowerIsBetter(playerStats[i]) ? value < 0 : value > 0;
+            return <td key={i} className={value === 0 ? "stat-neutral" : improved ? "stat-positive" : "stat-negative"}><span className="stat-difference">{value !== 0 && <Icon name={improved ? "up" : "down"} />}<span>{diff}</span><span className="sr-only">{value === 0 ? " unchanged" : improved ? " improvement" : " decline"}</span></span></td>;
+          })}</tr>}
+        </tbody>
+      </table>
+    </div>
+  );
 }
- 
+
 export default CatTable;

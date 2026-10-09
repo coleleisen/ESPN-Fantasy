@@ -1,85 +1,38 @@
-import React, { Component } from "react";
+import React from "react";
 import CatTable from "./CatTable";
- 
-class TradeTable extends Component {
+import { Avatar, Icon, teamLabel } from "./UI";
 
-  
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.team.teamName !== this.props.team.teamName) {
-     
-      let len = this.props.playerName.length
-        this.props.removePlayer(0 , len);      
-    }
-  }
-
-  render() {
-   
-    return (
-      <div>
-          <h3 style={{paddingBottom : 0}}>{this.props.team.teamName}</h3>
-        <div class="dropdown" style={{margin : "10px"}}>
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={{backgroundColor:"#cc0000", background : "#cc0000"}}>Trade player
-    <span class="caret"></span></button>
-    <ul class="dropdown-menu"  style={{backgroundColor:"red", background : "rgb(24,26,27"}}>
-    {this.props.team.players ? this.props.team.players.map((player, i)=>{
-        let e;
-        {player.injured ? e = <li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",border : "none", color : "white"}} disabled>{player.name}</button></li>
-         : e =<li key={i}><button className="btn" style={{backgroundColor : "rgb(24, 26, 27)",border : "none", color : "white"}} onClick={()=> this.props.insertPlayer(player.name)}>{player.name}</button></li>} 
-        return e;
-}) : <h2>error no players array</h2>}   
-    </ul>
-    </div>
-    <div class="container" style ={{ margin : 0, padding : 0}}>
- 
-  
-      {this.props.playerName.map((player, i)=>{
-          return(
-              <div key ={i} class="container" style ={{margin : 0, padding :0 , height : "120px"}}>
-             <div class ="row" >
-               <div class="col-lg-2">          
-               <img style = {{height : "120px", width : "100%", float : "left"}} src={this.props.team.players[player.index].image} alt="Cinque Terre" class="img-responsive"></img>
-               </div>
-              <div class="col-lg-10">
-              <div class="row" style ={{ height : "38px", margin : 0, padding : 0}}>       
-              <div class="col-lg-11">
-              <h3 style={{width : "95%", height: "50%", margin: 0, padding : 0 }}>{this.props.team.players[player.index].name}</h3>
-              </div>
-              <div class="col-lg-1">
-              <button id="xButton" className="btn btn-link" onClick={() => this.props.removePlayer(i, 1)}>
-              <span class="glyphicon glyphicon-remove" style={{color : "red", height : "100%", margin : 0, float : "right"}}></span>
-              </button>
-              </div>   
-              </div>  
-              <CatTable playerStats = {this.props.team.players[player.index].categories}></CatTable> 
-              </div> 
-              </div>
-        </div>
-          )
-      }) }
-    
-      </div>
-      <div class="container" style ={{margin : 0, padding :0 , height : "120px"}}>  
-      <div class="row" >
-        <div class="col-lg-2" >
-        <img style = {{height : "120px", width : "100%", float : "left"}} src={this.props.team.logo} alt="Cinque Terre" class="img-responsive"></img>
-        </div>
-        <div class="col-lg-10">
-        <div class="row" style ={{ height : "38px", margin : 0, padding : 0}}>       
-              <div class="col-lg-11">
-        <h3 style={{margin :0, padding : 0, width: "95%", height : "50%"}}>Team Stats</h3>
-        </div>
-        <div class="col-lg-1"></div>
-        </div>
-
-            <CatTable playerStats = {this.props.catAvg} difference = {this.props.difference}></CatTable>
+function TradeTable({ catAvg, team, playerName, insertPlayer, removePlayer, difference, side }) {
+  const selectId = "player-" + side.toLowerCase();
+  return (
+    <article className={"panel trade-panel side-" + side.toLowerCase()}>
+      <div className="trade-team-heading"><Avatar name={team.teamName} src={team.logo} /><div><p className="eyebrow">TEAM {side}</p><h3>{teamLabel(team.teamName)}</h3></div><span className="count-badge">{playerName.length} out</span></div>
+      <div className="player-picker">
+        <label htmlFor={selectId}>Add a player to trade</label>
+        <div className="select-wrap">
+          <select id={selectId} value="" onChange={event => insertPlayer(event.target.value)}>
+            <option value="" disabled>{team.players && team.players.length ? "Choose a player…" : "No players available"}</option>
+            {(team.players || []).map(player => <option key={player.name} value={player.name} disabled={player.injured || playerName.some(selected => selected.name === player.name)}>{player.name}{player.injured ? " (IR — unavailable)" : ""}</option>)}
+          </select>
+          <Icon name="chevron" />
         </div>
       </div>
+      <div className="selected-players">
+        {!playerName.length && <div className="player-placeholder"><Icon name="people" /><p>No players selected</p><span>Add players to see the impact of a trade.</span></div>}
+        {playerName.map((selection, index) => {
+          const player = team.players[selection.index];
+          return <div key={player.name} className="player-card">
+            <div className="player-heading"><Avatar name={player.name} src={player.image} className="player-avatar" /><div><h4>{player.name}</h4><span>Outgoing player</span></div><button type="button" className="icon-button" aria-label={"Remove " + player.name} onClick={() => removePlayer(index)}><Icon name="close" /></button></div>
+            <CatTable playerStats={player.categories} label={player.name + " statistics"} />
+          </div>;
+        })}
       </div>
-       
+      <div className="trade-stats">
+        <div className="panel-heading"><h4>{difference ? "Projected team stats" : "Current team stats"}</h4><span className={"badge" + (difference ? " badge-success" : "")}>{difference ? "After trade" : "Before trade"}</span></div>
+        <CatTable playerStats={catAvg} difference={difference} label={teamLabel(team.teamName) + " team statistics"} />
       </div>
-    );
-  }
+    </article>
+  );
 }
- 
+
 export default TradeTable;

@@ -1,74 +1,55 @@
 import React, { Component } from "react";
+import { Avatar, Icon, teamLabel } from "./UI";
 
 class StandingsTable extends Component {
+  state = { selected: null, ascending: false };
 
-    constructor(props){
-        super(props)
-        this.state={
-            selected : 1000,
-            teams : [],
-            og : []
-        }
-    }
-    componentDidMount(){
-        let oger = JSON.parse(JSON.stringify(this.props.teams));
-        this.setState({teams : this.props.teams, og : oger});
-    }
-    sortTable = (index)=>{
-        let table = this.state.teams;
-        if(index==1000){
-            table = JSON.parse(JSON.stringify(this.state.og));
-        }
-        else{
-            if(this.state.selected===index){
-                table.reverse();
-            }
-            else{
-                table.sort((a,b) =>  b.catAvg[index].number  - a.catAvg[index].number );
-            }
-            
-        }
-        this.setState({teams : table, selected : index})
-    }
+  sortTable = index => {
+    this.setState(state => ({
+      selected: index,
+      ascending: state.selected === index ? !state.ascending : false
+    }));
+  };
+
   render() {
+    const { selected, ascending } = this.state;
+    const teams = [...this.props.teams];
+    if (selected !== null) {
+      teams.sort((a, b) => {
+        const category = this.props.leagueAverage[selected].name;
+        const aStat = a.catAvg.find(cat => cat.name === category);
+        const bStat = b.catAvg.find(cat => cat.name === category);
+        return ((Number(bStat && bStat.number) || 0) - (Number(aStat && aStat.number) || 0)) * (ascending ? -1 : 1);
+      });
+    }
     return (
-      <div>
-    <table class="table">
-    <thead class="thead-dark">
-    <tr>
-        <th scope="col" key={1000} style={{textAlign : "center"}} data-column={1000} onClick={()=> this.sortTable(1000)} >TEAM <i class="glyphicon glyphicon-sort"></i></th>
-         
-        {this.props.leagueAverage.map((cat, i)=>{
-            let e;
-            {this.state.selected!==i ? e=<th key={i} scope="col" style={{textAlign : "center"}} data-column={i} onClick={()=> this.sortTable(i)}>{cat.name} <i class="glyphicon glyphicon-sort"></i></th> :  
-            e = <th key={i} scope="col" style={{textAlign : "center", backgroundColor: "red"}} data-column={i} onClick={()=> this.sortTable(i)}>{cat.name} <i class="glyphicon glyphicon-sort"></i></th> }
-
-          return e; 
-          })}
-    </tr>
-  </thead>
-  <tbody>
-      
-      {this.state.teams.map((team, i)=>{
-          return(
-            <tr key={i}>
-              <td key={10+i} data-column={1000} scope="row"><p>{team.teamName.substr(2,team.teamName.length)}</p></td>
-                
-              {team.catAvg.map((cat, index)=>{
-                  let e;
-                  {this.state.selected!==index ? e= <td key={i*100+index} data-column={index} scope="col" ><p>{cat.number}</p></td> :  
-                    e= <td key={i*100+index} data-column={index} style={{backgroundColor : "red"}}scope="col" ><p>{cat.number}</p></td>}
-                return e; 
-              })}          
-              
+      <div className="table-scroll" role="region" aria-label="Scrollable team standings" tabIndex="0">
+        <table className="data-table standings-table" aria-label="Team standings">
+          <thead>
+            <tr>
+              <th scope="col"><button className="stat-sort team-sort" type="button" onClick={() => this.sortTable(null)}>TEAM <Icon name="sort" /></button></th>
+              {this.props.leagueAverage.map((cat, i) => (
+                <th key={cat.name} scope="col" aria-sort={selected === i ? ascending ? "ascending" : "descending" : "none"} className={selected === i ? "selected-column" : ""}>
+                  <button className="stat-sort" type="button" onClick={() => this.sortTable(i)}>{cat.name} <Icon name={selected === i ? ascending ? "up" : "down" : "sort"} /></button>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {teams.map(team => (
+              <tr key={team.teamName}>
+                <th scope="row"><div className="team-cell"><Avatar name={team.teamName} src={team.logo} /><span className="team-name">{teamLabel(team.teamName)}</span></div></th>
+                {this.props.leagueAverage.map((cat, i) => {
+                  const stat = team.catAvg.find(value => value.name === cat.name);
+                  return <td key={cat.name} className={selected === i ? "selected-column" : ""}>{stat ? stat.number : "--"}</td>;
+                })}
               </tr>
-          )
-            })}     
-      </tbody>
-      </table>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
 }
- 
+
 export default StandingsTable;
