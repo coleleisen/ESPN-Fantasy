@@ -35,6 +35,24 @@ Equal-size trade previews include a Trade impact summary with before/after value
 
 Production continues to use `https://espnapp.onrender.com`. Set `REACT_APP_API_URL` at build time to use another API host.
 
+### Deploy to GitHub Pages
+
+The source code lives on `master`. GitHub Pages serves the compiled files from the root of `gh-pages` at [https://www.scraper.bet/](https://www.scraper.bet/). Pushing to `master` alone does not deploy the site.
+
+From a clean checkout in PowerShell, run each command in order and stop if any command fails:
+
+```powershell
+git switch master
+git pull --ff-only origin master
+npm.cmd ci
+npm.cmd test -- --watchAll=false --runInBand
+npm.cmd run deploy
+```
+
+`npm.cmd run deploy` runs the production build first, then commits and pushes the contents of `build/` to `gh-pages` using your Git credentials. It requires push access to this repository. The `public/CNAME` file is copied into the build to preserve the custom domain on every deployment.
+
+In the repository's **Settings > Pages**, keep **Deploy from a branch**, branch **gh-pages**, folder **/(root)**, and custom domain **www.scraper.bet**. Wait for the Pages deployment to finish, then open the site and refresh. The league API is hosted separately on Render; this command deploys only the frontend.
+
 In the project directory, you can run:
 
 ### `npm start`
