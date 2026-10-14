@@ -35,24 +35,39 @@ export function CitedAnswer({ text, citations = [] }) {
 export function chatHistory(messages) {
   const history = [];
   let size = 0;
-  for (const message of messages.slice(-20).reverse()) {
-    const content = message.content.slice(0, 12000);
-    if (size + content.length > 60000) break;
+  for (const message of messages.slice(-12).reverse()) {
+    const content = message.content.slice(0, 4000);
+    if (size + content.length > 12000) break;
     history.unshift({ role: message.role, content });
     size += content.length;
   }
   return history;
 }
 
+export function AnswerUsage({ usage, model }) {
+  if (!usage) return null;
+  const tokens = (usage.inputTokens || 0) + (usage.outputTokens || 0);
+  const cost = Number.isFinite(usage.estimatedCostUsd)
+    ? (usage.estimatedCostUsd > 0 && usage.estimatedCostUsd < 0.001 ? "<$0.001" : "$" + usage.estimatedCostUsd.toFixed(3)) + " USD estimated"
+    : "Cost estimate unavailable";
+  return <details className="advisor-usage"><summary>{cost} · {tokens.toLocaleString("en-US")} tokens</summary>
+    <p>{model || "Configured model"} · {usage.modelCalls || 0} model calls · {usage.webSearchCalls || 0} web searches</p>
+    <p>{(usage.inputTokens || 0).toLocaleString("en-US")} input tokens ({(usage.cachedInputTokens || 0).toLocaleString("en-US")} cached) · {(usage.outputTokens || 0).toLocaleString("en-US")} output tokens, including reasoning.</p>
+    <p>Estimated from published standard rates{usage.pricingAsOf ? " as of " + usage.pricingAsOf : ""}, allowing for cache-write charges. Actual OpenAI billing may differ.</p>
+    {usage.billingIncomplete && <p>Some usage was not reported. The estimate may exclude charges from the interrupted request.</p>}
+  </details>;
+}
+
 export default function Advisor({ league }) {
   const [status, setStatus] = useState(null);
   const [teamId, setTeamId] = useState("");
-  const [research, setResearch] = useState(true);
+  const [research, setResearch] = useState(false);
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
   const [busy, setBusy] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
+  const [failedUsage, setFailedUsage] = useState(null);
   const alive = useRef(true);
   const inFlight = useRef(false);
   const cancel = useRef(null);
@@ -78,6 +93,7 @@ export default function Advisor({ league }) {
     inFlight.current = true;
     setBusy(true);
     setError("");
+    setFailedUsage(null);
     cancel.current = axios.CancelToken.source();
     const message = question.trim();
     const history = chatHistory(messages);
@@ -86,10 +102,13 @@ export default function Advisor({ league }) {
         { timeout: 190000, cancelToken: cancel.current.token });
       if (!alive.current) return;
       setMessages(previous => previous.concat({ role: "user", content: message }, { role: "assistant", content: data.answer,
-        citations: data.citations, researched: data.webSearchUsed, context: data.context }));
+        citations: data.citations, researched: data.webSearchUsed, context: data.context, usage: data.usage, model: data.model }));
       setQuestion("");
       setStatus(previous => ({ ...previous, context: data.context }));
-    } catch (e) { if (alive.current && !axios.isCancel(e)) setError(errorText(e)); }
+    } catch (e) { if (alive.current && !axios.isCancel(e)) {
+      setError(errorText(e));
+      setFailedUsage(e.response && e.response.data && e.response.data.usage ? e.response.data : null);
+    } }
     finally { inFlight.current = false; if (alive.current) setBusy(false); }
   }
 
@@ -113,11 +132,11 @@ export default function Advisor({ league }) {
     <div className="advisor-layout">
       <aside className="advisor-sidebar">
         <div className="advisor-control"><label htmlFor="advisor-team">My team</label>
-          <select id="advisor-team" value={teamId} disabled={busy || refreshing} onChange={event => { setTeamId(event.target.value); setMessages([]); setError(""); }}>
+          <select id="advisor-team" value={teamId} disabled={busy || refreshing} onChange={event => { setTeamId(event.target.value); setMessages([]); setError(""); setFailedUsage(null); }}>
             <option value="">Whole league</option>{status && status.teams.map(team => <option key={team.id} value={team.id}>{team.name}</option>)}
           </select><p>Choose a team for pickup and trade advice. Changing teams starts a new chat.</p>
         </div>
-        <label className="advisor-research"><input type="checkbox" checked={research} onChange={event => setResearch(event.target.checked)} disabled={busy} /><span>Research online<small>Recent injuries, roles and schedules</small></span></label>
+        <label className="advisor-research"><input type="checkbox" checked={research} onChange={event => setResearch(event.target.checked)} disabled={busy} /><span>Research online<small>Optional news lookup · adds search costs</small></span></label>
         <div className="advisor-data"><span className="eyebrow">LEAGUE CONTEXT</span>
           {context ? <React.Fragment><strong>{context.teamCount} teams · {context.rosteredPlayers} rostered players</strong>
             <p>{context.playerPoolComplete ? context.availablePlayers + " free agents and waiver players indexed" : "Saved rosters loaded. Waiver pool not synced."}</p>
@@ -137,18 +156,19 @@ export default function Advisor({ league }) {
           </div>}
           {messages.map((message, index) => <article className={"advisor-message advisor-message-" + message.role} key={index}>
             <span className="advisor-speaker">{message.role === "user" ? "You" : "Scraper Agent"}</span>
-            {message.role === "assistant" ? <React.Fragment><CitedAnswer text={message.content} citations={message.citations} /><p className="advisor-message-meta">{message.researched ? "League data + web research" : "League data · no web search used"}{message.context && message.context.asOf ? " · Data as of " + new Date(message.context.asOf).toLocaleString() : ""}</p></React.Fragment> : <p className="advisor-answer">{message.content}</p>}
+            {message.role === "assistant" ? <React.Fragment><CitedAnswer text={message.content} citations={message.citations} /><p className="advisor-message-meta">{message.researched ? "League data + web research" : "League data · no web search used"}{message.context && message.context.asOf ? " · Data as of " + new Date(message.context.asOf).toLocaleString() : ""}</p><AnswerUsage usage={message.usage} model={message.model} /></React.Fragment> : <p className="advisor-answer">{message.content}</p>}
           </article>)}
           {busy && <div className="advisor-thinking" role="status"><span className="spinner" />Reviewing your league{research ? " and researching your question" : ""}…</div>}
           <div ref={end} />
         </div>
         {error && <p className="notice notice-error" role="alert"><Icon name="info" />{error}</p>}
+        {failedUsage && <AnswerUsage usage={failedUsage.usage} model={failedUsage.model} />}
         <form className="advisor-compose" onSubmit={send}>
           <label className="sr-only" htmlFor="advisor-question">Ask Scraper Agent</label>
           <textarea id="advisor-question" value={question} maxLength={4000} rows={3} placeholder="Who could help my team win assists without hurting turnovers?" disabled={busy || refreshing} onChange={event => setQuestion(event.target.value)} />
-          <div className="advisor-compose-actions"><button type="button" className="advisor-reset" disabled={!messages.length || busy || refreshing} onClick={() => { setMessages([]); setError(""); }}>New chat</button><span>{question.length}/4000</span><button type="submit" className="button button-primary" disabled={!canAsk || !question.trim()}>{busy ? "Thinking…" : "Ask agent"}<Icon name="arrow" /></button></div>
+          <div className="advisor-compose-actions"><button type="button" className="advisor-reset" disabled={!messages.length || busy || refreshing} onClick={() => { setMessages([]); setError(""); setFailedUsage(null); }}>New chat</button><span>{question.length}/4000</span><button type="submit" className="button button-primary" disabled={!canAsk || !question.trim()}>{busy ? "Thinking…" : "Ask agent"}<Icon name="arrow" /></button></div>
         </form>
-        <p className="advisor-footer">Advice uses the saved league data shown here. Refresh before making a move. Chats last for this visit.</p>
+        <p className="advisor-footer">Advice uses the saved league data shown here. Enable research for current news. Chats last for this visit; long chats keep recent messages to control cost.</p>
       </div>
     </div>
   </section>;
