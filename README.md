@@ -35,6 +35,16 @@ Equal-size trade previews include a Trade impact summary with before/after value
 
 Production continues to use `https://espnapp.onrender.com`. Set `REACT_APP_API_URL` at build time to use another API host.
 
+### Scraper Agent
+
+Open a league and select **Scraper Agent**, or visit `http://localhost:3001/?league=DGFBL#/scraper-agent`. On the hosted app use `https://www.scraper.bet/?league=DGFBL#/scraper-agent`. Existing `/advisor` links redirect to the new section. Choose your team, enter a prompt, and ask about pickups, trades or roster strengths. The app automatically calls the companion API's `/chat` endpoints using its server-side OpenAI key; users do not enter any credentials. Follow-up messages retain the conversation during this visit; changing teams or selecting **New chat** clears it. Online research can be switched off, and researched answers include clickable inline citations and sources.
+
+Configure `OPENAI_API_KEY` and optionally `OPENAI_MODEL` in the companion **API server's** environment, then restart that server. The OpenAI key stays on the server and is never sent to the browser or included in `REACT_APP_*`. If configuration is missing, the tab explains that the app owner needs to connect OpenAI and disables paid chat requests. Request and concurrency limits remain enforced on the backend.
+
+The context panel shows the dataset timestamp, roster counts and waiver coverage. **Refresh league data** needs `ESPN_ADVISOR_SESSION_FILE` configured on the API server and a verified persistent ESPN session. It refreshes the advisor's complete basketball pool and statistical periods without changing the dashboard's selected stats view. The API README documents setup, supported data, limits and deployment requirements. There is no automatic refresh or automatic roster transaction execution.
+
+Deploy both the API and frontend to make the feature available on the hosted app. Local source changes and a successful frontend build do not update either hosted service.
+
 ### Deploy to GitHub Pages
 
 The source code lives on `master`. GitHub Pages serves the compiled files from the root of `gh-pages` at [https://www.scraper.bet/](https://www.scraper.bet/). Pushing to `master` alone does not deploy the site.

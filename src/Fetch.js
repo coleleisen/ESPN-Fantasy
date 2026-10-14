@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import Navigator from "./Navigator";
 import { Icon } from "./UI";
-
-const apiBaseUrl = (process.env.REACT_APP_API_URL || (process.env.NODE_ENV === "development" ? "" : "https://espnapp.onrender.com")).replace(/\/+$/, "");
+import { apiBaseUrl } from "./api";
 
 class Fetch extends Component {
   leagueFromUrl = (new URLSearchParams(window.location.search).get("league") || "").trim();
@@ -117,7 +116,7 @@ class Fetch extends Component {
             <div><p className="eyebrow">YOUR LEAGUE WORKSPACE</p><h1>{confirmedLeague}</h1><div className="league-meta"><span><Icon name="people" />{teams.length} teams</span><span>{scoringType === "points" ? "Points scoring" : "Category comparison"}</span>{updatedAt && !Number.isNaN(updatedAt.getTime()) && <span><time dateTime={updatedAt.toISOString()}>Saved {updatedAt.toLocaleString(undefined, { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}</time></span>}</div></div>
             <button type="button" className="button button-secondary" onClick={this.changeLeague}><Icon name="exchange" />Change League</button>
           </div>
-          <Navigator key={revision} teams={teams} leagueAverage={catAverage} scoringType={scoringType} />
+          <Navigator key={revision} league={confirmedLeague} teams={teams} leagueAverage={catAverage} scoringType={scoringType} />
         </React.Fragment>}
       </div>
     );

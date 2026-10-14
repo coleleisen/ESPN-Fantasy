@@ -80,6 +80,26 @@ test("opens a league link automatically, keeps its section, and shows the saved 
   );
 });
 
+test.each(["/scraper-agent", "/advisor"])("opens Scraper Agent from %s with the selected league connected", async path => {
+  window.history.replaceState(null, "", "/?league=DGFBL#" + path);
+  axios.post.mockResolvedValueOnce({ data: makeLeague() });
+  axios.CancelToken.source.mockReturnValue({ token: "test-token", cancel: jest.fn() });
+  axios.get.mockResolvedValueOnce({ data: { configured: true, refreshConfigured: false,
+    teams: [{ id: "1", name: "Alpha" }], context: { teamCount: 2, rosteredPlayers: 3, warnings: [] } } });
+  const view = render(<App />);
+  await wait(() => expect(view.getByLabelText("Ask Scraper Agent")).toBeInTheDocument());
+  await wait(() => expect(view.getByText("Alpha")).toBeInTheDocument());
+  expect(window.location.hash).toBe("#/scraper-agent");
+  expect(view.container.querySelector('a[href="#/scraper-agent"]')).toHaveTextContent("Scraper Agent");
+  expect(view.container.querySelector('a[href="#/scraper-agent"]')).toHaveClass("active");
+  expect(axios.get).toHaveBeenLastCalledWith("https://espnapp.onrender.com/chat/status", {
+    params: { league: "DGFBL" }, timeout: 20000, cancelToken: "test-token"
+  });
+  fireEvent.change(view.getByLabelText("Ask Scraper Agent"), { target: { value: "Suggest a pickup" } });
+  expect(view.getByText("Ask agent")).not.toBeDisabled();
+  expect(view.container.querySelector('input[type="password"]')).toBeNull();
+});
+
 test("an unavailable league link returns to a usable form and can be retried", async () => {
   window.history.replaceState(null, "", "/?league=IFHL#/standings");
   axios.post.mockRejectedValueOnce(new Error("offline"));

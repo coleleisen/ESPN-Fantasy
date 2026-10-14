@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const paths = {
+  chat: <React.Fragment><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-2 2V11.5A8.5 8.5 0 0 1 10.5 3h2A8.5 8.5 0 0 1 21 11.5Z" /><path d="M7 10h9M7 14h6" /></React.Fragment>,
   overview: <React.Fragment><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></React.Fragment>,
   heatmap: <React.Fragment><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M3 15h18M9 3v18m6-18v18" /><path d="M4 4h4v4H4zm12 6h4v4h-4zm-6 6h4v4h-4z" fill="currentColor" stroke="none" /></React.Fragment>,
   chart: <React.Fragment><path d="M4 20V10m8 10V4m8 16v-7" /><path d="M2 20h20" /></React.Fragment>,
