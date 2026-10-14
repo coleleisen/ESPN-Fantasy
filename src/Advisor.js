@@ -5,9 +5,9 @@ import { Icon, SectionHeading } from "./UI";
 import "./Advisor.css";
 
 const prompts = [
-  ["Find my next pickup", "Which available players best improve my team? Compare my weakest categories, suggest three pickups and explain who I could drop."],
-  ["Find a trade partner", "Suggest two realistic trades with other teams in our league. Explain how each side benefits and the categories I would gain or lose."],
-  ["Read my roster", "Analyze my team's strengths, weaknesses and biggest risks using our league's scoring rules. What should I prioritize next?"]
+  ["Find my next pickup", "Which available players best fit my team's category strategy? Identify likely punts, protect my strengths and target winnable categories. Suggest three pickups and explain who I could drop and the trade-offs."],
+  ["Find a trade partner", "Suggest two realistic trades with other teams in our league. Account for each team's likely punts and strengths. Explain how each side benefits in categories they are trying to win and what they would give up."],
+  ["Read my roster", "Analyze my team's build using our league's scoring rules. Identify likely punts, strengths to protect, winnable swing categories and biggest risks. Explain your assumptions and what I should prioritize next."]
 ];
 const validUrl = value => { try { return ["http:", "https:"].includes(new URL(value).protocol); } catch (error) { return false; } };
 
