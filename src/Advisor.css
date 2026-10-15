@@ -12,6 +12,7 @@
 .advisor-data { margin-top: 25px; padding-top: 22px; border-top: 1px solid var(--line); }
 .advisor-data strong { display: block; font-size: 12px; margin-top: 12px; line-height: 1.7; }
 .advisor-data .button { margin-top: 18px; width: 100%; font-size: 11px; justify-content: center; }
+.advisor-rankings > a { color: var(--positive); font-size: 11px; text-decoration: underline; }
 .advisor-main { min-width: 0; }
 .advisor-setup { display: flex; gap: 12px; padding: 18px; border: 1px solid #f6505955; background: #f650590a; border-radius: 10px; margin-bottom: 16px; font-size: 13px; }
 .advisor-setup p { color: var(--muted); line-height: 1.7; font-size: 12px; margin-top: 7px; }

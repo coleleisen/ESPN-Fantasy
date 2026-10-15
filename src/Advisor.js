@@ -112,21 +112,22 @@ export default function Advisor({ league }) {
     finally { inFlight.current = false; if (alive.current) setBusy(false); }
   }
 
-  async function refresh() {
-    if (inFlight.current || !status || !status.refreshConfigured) return;
+  async function refresh(source = "league") {
+    if (inFlight.current || !status || (source === "league" && !status.refreshConfigured)) return;
     inFlight.current = true;
-    setRefreshing(true);
+    setRefreshing(source);
     setError("");
     cancel.current = axios.CancelToken.source();
     try {
-      const { data } = await axios.post(apiBaseUrl + "/chat/refresh", { league },
-        { timeout: 240000, cancelToken: cancel.current.token });
+      const { data } = await axios.post(apiBaseUrl + (source === "rankings" ? "/chat/rankings/refresh" : "/chat/refresh"), { league },
+        { timeout: source === "rankings" ? 35000 : 240000, cancelToken: cancel.current.token });
       if (alive.current) setStatus(previous => ({ ...previous, context: data.context }));
     } catch (e) { if (alive.current && !axios.isCancel(e)) setError(errorText(e)); }
     finally { inFlight.current = false; if (alive.current) setRefreshing(false); }
   }
 
   const context = status && status.context;
+  const rankings = context && context.basketballMonster;
   return <section className="advisor">
     <SectionHeading eyebrow="YOUR NEXT MOVE" title="Scraper Agent" icon="chat">Ask about pickups, trades and your team's next move. Every answer starts with your league's rosters and stats.</SectionHeading>
     <div className="advisor-layout">
@@ -143,9 +144,19 @@ export default function Advisor({ league }) {
             <p>{context.asOf ? "Updated " + new Date(context.asOf).toLocaleString() : "Update time unavailable"}</p>
             {context.seasonId && <p>ESPN season {context.seasonId}</p>}
           </React.Fragment> : <p>Loading league context…</p>}
-          <button type="button" className="button button-secondary" onClick={refresh} disabled={!status || !status.refreshConfigured || busy || refreshing}>{refreshing ? "Refreshing ESPN data…" : "Refresh league data"}</button>
+          <button type="button" className="button button-secondary" onClick={() => refresh("league")} disabled={!status || !status.refreshConfigured || busy || refreshing}>{refreshing === "league" ? "Refreshing ESPN data…" : "Refresh league data"}</button>
           {status && !status.refreshConfigured && <p>The app owner can connect an ESPN session to enable refresh.</p>}
         </div>
+        {rankings && <div className="advisor-data advisor-rankings"><span className="eyebrow">BASKETBALL MONSTER</span>
+          <strong>{rankings.available ? (rankings.seasonId - 1) + "–" + String(rankings.seasonId).slice(-2) + " actual results · per game" : "Public rankings not loaded"}</strong>
+          {rankings.available && <p>{rankings.rankedPlayers} ranked players · {rankings.matchedPlayers} matched to ESPN</p>}
+          {rankings.fetchedAt && <p>Retrieved {new Date(rankings.fetchedAt).toLocaleString()}</p>}
+          {(rankings.warnings || []).map(warning => <p key={warning}>{warning}</p>)}
+          <p>Category z-scores help assess fit with your punts. Public rankings update when you chat if over six hours old.</p>
+          <a href={validUrl(rankings.sourceUrl) ? rankings.sourceUrl : "https://basketballmonster.com/playerrankings.aspx"} target="_blank" rel="noopener noreferrer">View source rankings</a>
+          <button type="button" className="button button-secondary" onClick={() => refresh("rankings")} disabled={busy || Boolean(refreshing)}>{refreshing === "rankings" ? "Refreshing rankings…" : "Refresh public rankings"}</button>
+          <p>No OpenAI charge to refresh. Refresh attempts are limited to once every 15 minutes.</p>
+        </div>}
       </aside>
       <div className="advisor-main">
         {status && !status.configured && <div className="advisor-setup" role="status"><Icon name="info" /><div><strong>Connect OpenAI to start chatting</strong><p>The app owner needs to connect OpenAI on the server. Once connected, everyone can chat here automatically.</p></div></div>}

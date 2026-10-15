@@ -58,6 +58,24 @@ test("refresh is available without entering any credentials", async () => {
   expect(axios.post.mock.calls[0][2].headers).toBeUndefined();
 });
 
+test("public rankings show their historical season and refresh independently of ESPN login and paid research", async () => {
+  const basketballMonster = { available: true, seasonId: 2026, currentSeasonAvailable: false, rankedPlayers: 582, matchedPlayers: 551,
+    sourceUrl: "https://basketballmonster.com/playerrankings.aspx?ds=160", fetchedAt: context.asOf,
+    warnings: ["Current-season public rankings are unavailable. Historical results are not projections."] };
+  axios.get.mockResolvedValue({ data: { configured: true, refreshConfigured: false, context: { ...context, basketballMonster }, teams: [] } });
+  axios.post.mockResolvedValue({ data: { context: { ...context, basketballMonster: { ...basketballMonster, rankedPlayers: 583 } } } });
+  const view = render(<Advisor league="DGFBL" />);
+  await waitForElement(() => view.getByText(/2025–26 actual results/));
+  expect(view.getByText(/Historical results are not projections/)).toBeInTheDocument();
+  expect(view.getByText("Refresh league data")).toBeDisabled();
+  expect(view.getByText("Refresh public rankings")).not.toBeDisabled();
+  expect(view.container.querySelector('.advisor-research input')).not.toBeChecked();
+  fireEvent.click(view.getByText("Refresh public rankings"));
+  await waitForElement(() => view.getByText(/583 ranked players/));
+  expect(axios.post.mock.calls[0][0]).toMatch(/\/chat\/rankings\/refresh$/);
+  expect(axios.post.mock.calls[0][1]).toEqual({ league: "DGFBL" });
+});
+
 test("citations are clickable inline, Unicode offsets work, and HTML or unsafe links cannot execute", () => {
   const view = render(<CitedAnswer text={"🏀 News [cite] <script>bad()</script>"} citations={[
     { start: 7, end: 13, url: "https://www.espn.com/news", title: "ESPN news" },
