@@ -76,6 +76,32 @@ test("public rankings show their historical season and refresh independently of 
   expect(axios.post.mock.calls[0][1]).toEqual({ league: "DGFBL" });
 });
 
+test("Yahoo ADP shows current-season market values and refreshes independently without paid research or an ESPN login", async () => {
+  const yahooAdp = { available: true, seasonId: 2027, rankedPlayers: 187, matchedPlayers: 180,
+    sourceUrl: "https://basketball.fantasysports.yahoo.com/nba/draftanalysis?type=standard", fetchedAt: context.asOf, warnings: [] };
+  axios.get.mockResolvedValue({ data: { configured: true, refreshConfigured: false, context: { ...context, yahooAdp }, teams: [] } });
+  axios.post.mockResolvedValue({ data: { context: { ...context, yahooAdp: { ...yahooAdp, matchedPlayers: 181 } } } });
+  const view = render(<Advisor league="DGFBL" />);
+  await waitForElement(() => view.getByText("2026–27 draft market value"));
+  expect(view.getByText("View Yahoo draft analysis")).toHaveAttribute("href", yahooAdp.sourceUrl);
+  expect(view.getByText("Refresh league data")).toBeDisabled();
+  expect(view.container.querySelector('.advisor-research input')).not.toBeChecked();
+  fireEvent.click(view.getByText("Refresh Yahoo ADP"));
+  await waitForElement(() => view.getByText(/181 matched to ESPN/));
+  expect(axios.post.mock.calls[0][0]).toMatch(/\/chat\/adp\/refresh$/);
+  expect(axios.post.mock.calls[0][1]).toEqual({ league: "DGFBL" });
+});
+
+test("unavailable current-season Yahoo data displays its warning instead of inventing historical values", async () => {
+  axios.get.mockResolvedValue({ data: { configured: true, context: { ...context, yahooAdp: { available: false,
+    warnings: ["Current-season Yahoo ADP is unavailable. No prior-season Yahoo values are used."] } }, teams: [] } });
+  const view = render(<Advisor league="DGFBL" />);
+  await waitForElement(() => view.getByText("Current-season ADP not loaded"));
+  expect(view.getByText(/No prior-season Yahoo values/)).toBeInTheDocument();
+  expect(view.queryByText("2026–27 draft market value")).not.toBeInTheDocument();
+  expect(view.getByText("Refresh Yahoo ADP")).not.toBeDisabled();
+});
+
 test("citations are clickable inline, Unicode offsets work, and HTML or unsafe links cannot execute", () => {
   const view = render(<CitedAnswer text={"🏀 News [cite] <script>bad()</script>"} citations={[
     { start: 7, end: 13, url: "https://www.espn.com/news", title: "ESPN news" },

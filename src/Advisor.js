@@ -119,8 +119,9 @@ export default function Advisor({ league }) {
     setError("");
     cancel.current = axios.CancelToken.source();
     try {
-      const { data } = await axios.post(apiBaseUrl + (source === "rankings" ? "/chat/rankings/refresh" : "/chat/refresh"), { league },
-        { timeout: source === "rankings" ? 35000 : 240000, cancelToken: cancel.current.token });
+      const path = { league: "/chat/refresh", rankings: "/chat/rankings/refresh", adp: "/chat/adp/refresh" }[source];
+      const { data } = await axios.post(apiBaseUrl + path, { league },
+        { timeout: source === "league" ? 240000 : 35000, cancelToken: cancel.current.token });
       if (alive.current) setStatus(previous => ({ ...previous, context: data.context }));
     } catch (e) { if (alive.current && !axios.isCancel(e)) setError(errorText(e)); }
     finally { inFlight.current = false; if (alive.current) setRefreshing(false); }
@@ -128,6 +129,7 @@ export default function Advisor({ league }) {
 
   const context = status && status.context;
   const rankings = context && context.basketballMonster;
+  const adp = context && context.yahooAdp;
   return <section className="advisor">
     <SectionHeading eyebrow="YOUR NEXT MOVE" title="Scraper Agent" icon="chat">Ask about pickups, trades and your team's next move. Every answer starts with your league's rosters and stats.</SectionHeading>
     <div className="advisor-layout">
@@ -156,6 +158,16 @@ export default function Advisor({ league }) {
           <a href={validUrl(rankings.sourceUrl) ? rankings.sourceUrl : "https://basketballmonster.com/playerrankings.aspx"} target="_blank" rel="noopener noreferrer">View source rankings</a>
           <button type="button" className="button button-secondary" onClick={() => refresh("rankings")} disabled={busy || Boolean(refreshing)}>{refreshing === "rankings" ? "Refreshing rankings…" : "Refresh public rankings"}</button>
           <p>No OpenAI charge to refresh. Refresh attempts are limited to once every 15 minutes.</p>
+        </div>}
+        {adp && <div className="advisor-data advisor-rankings"><span className="eyebrow">YAHOO ADP</span>
+          <strong>{adp.available ? (adp.seasonId - 1) + "–" + String(adp.seasonId).slice(-2) + " draft market value" : "Current-season ADP not loaded"}</strong>
+          {adp.available && <p>{adp.rankedPlayers} players with ADP · {adp.matchedPlayers} matched to ESPN</p>}
+          {adp.fetchedAt && <p>Retrieved {new Date(adp.fetchedAt).toLocaleString()}</p>}
+          {(adp.warnings || []).map(warning => <p key={warning}>{warning}</p>)}
+          <p>Average draft position across Yahoo standard drafts. Lower means drafted earlier. Adds market context alongside stats and your team's category fit.</p>
+          <a href={validUrl(adp.sourceUrl) ? adp.sourceUrl : "https://basketball.fantasysports.yahoo.com/nba/draftanalysis?type=standard"} target="_blank" rel="noopener noreferrer">View Yahoo draft analysis</a>
+          <button type="button" className="button button-secondary" onClick={() => refresh("adp")} disabled={busy || Boolean(refreshing)}>{refreshing === "adp" ? "Refreshing Yahoo ADP…" : "Refresh Yahoo ADP"}</button>
+          <p>Current season only. Cached for six hours and refreshed when you chat. No OpenAI charge to refresh; attempts are limited to once every 15 minutes.</p>
         </div>}
       </aside>
       <div className="advisor-main">
