@@ -51,7 +51,7 @@ Deploy both the API and frontend to make the feature available on the hosted app
 
 The DGFBL GM reports are published as separate static pages:
 
-- [All-years report](https://www.scraper.bet/reports/dgfbl-all-years/): every available completed season, 2018–19 through 2025–26, including 193 trade records (159 scored after commissioner reversals), 1,208 draft picks and 4,318 pickups.
+- [All-years report](https://www.scraper.bet/reports/dgfbl-all-years/): every available completed season, 2018–19 through 2025–26, including 193 trade records (159 scored after commissioner reversals), 1,208 draft picks and 4,318 pickups. Sixteen GMs are tracked across 17 ESPN accounts; the confirmed 2018–19 “cola wiggles” account is joined to Ali Najafpour, with both account IDs retained in the audit.
 - [Five-season report](https://www.scraper.bet/reports/dgfbl/): the original 2021–22 through 2025–26 analysis, with unchanged scores.
 
 The site header opens the all-years report, and DGFBL navigation links to both. Each report links to the other and back to the main app. Charts, filters, player details, GM matchups and CSV/JSON downloads work without the league API. GitHub Pages serves each directory's `index.html`, so direct visits and refreshes work without an SPA fallback.
