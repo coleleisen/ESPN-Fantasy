@@ -33,6 +33,10 @@ a { color: inherit; }
 .brand-name > span { font-weight: 500; }
 .brand-caption { display: block; font-size: 8px; letter-spacing: 2.2px; color: var(--muted); margin-top: 6px; }
 .header-label { display: flex; align-items: center; gap: 13px; color: var(--muted); font-size: 12px; }
+.header-actions { display: flex; align-items: center; gap: 22px; }
+.report-link { text-decoration: none; white-space: nowrap; }
+@media (max-width: 760px) { .header-actions .header-label { display: none; } }
+@media (max-width: 480px) { .header-actions { gap: 0; } .report-link { padding: 10px; font-size: 11px; gap: 7px; } }
 .accent-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
 .main-content { width: 100%; max-width: 1240px; padding: 0 32px 64px; margin: 0 auto; flex: 1; min-width: 0; }
 .main-content:focus { outline: none; }
@@ -101,7 +105,7 @@ input[aria-invalid="true"] { border-color: var(--negative); }
 .league-meta > span { display: flex; align-items: center; gap: 7px; }
 .league-meta .icon { width: 16px; height: 16px; }
 .league-meta > span + span { padding-left: 20px; border-left: 1px solid var(--line); }
-.league-navigation { display: flex; gap: 8px; border-bottom: 1px solid var(--line); margin-bottom: 34px; }
+.league-navigation { display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--line); margin-bottom: 34px; }
 .league-navigation a { display: flex; align-items: center; justify-content: center; gap: 9px; position: relative; text-decoration: none; font-size: 13px; font-weight: 600; padding: 16px 25px; min-height: 54px; color: var(--muted); }
 .league-navigation a:hover { color: var(--text); background: #ffffff03; }
 .league-navigation a.active { color: var(--text); }

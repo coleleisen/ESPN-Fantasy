@@ -9,7 +9,7 @@ function Home() {
       <header className="site-header">
         <div className="header-inner">
           <div className="brand"><span className="brand-symbol"><Icon name="chart" /></span><div><span className="brand-name">ESPN <span>Fantasy</span></span><span className="brand-caption">YOUR LEAGUE. YOUR EDGE.</span></div></div>
-          <span className="header-label">Fantasy sports, in focus<span className="accent-dot" /></span>
+          <div className="header-actions"><span className="header-label">Fantasy sports, in focus<span className="accent-dot" /></span><a className="button button-secondary report-link" href={process.env.PUBLIC_URL + "/reports/dgfbl/"} aria-label="DGFBL GM report" title="Five-season DGFBL GM report"><Icon name="trophy" />GM report</a></div>
         </div>
       </header>
       <main id="main-content" className="main-content" tabIndex="-1"><Fetch /></main>

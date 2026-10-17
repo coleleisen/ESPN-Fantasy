@@ -49,6 +49,16 @@ Deploy both the API and frontend to make the feature available on the hosted app
 
 ### Deploy to GitHub Pages
 
+The DGFBL GM performance report is published at [https://www.scraper.bet/reports/dgfbl/](https://www.scraper.bet/reports/dgfbl/), linked from the site header and DGFBL navigation. It is a standalone static page: all five seasons, charts, filters, player details, GM matchups and CSV/JSON downloads work without the league API. Its return link opens the main app. GitHub Pages serves the directory's `index.html`, so direct visits and refreshes work without an SPA fallback.
+
+The committed `public/reports/dgfbl/` snapshot is copied into `build/` by the normal production build. To explicitly replace it after rebuilding the report in the companion ESPN-API project, run:
+
+```powershell
+node scripts/import-gm-report.js C:/Projects/ESPN-API/.backfills/dgfbl-gm-report/dgfbl-gm-report.html
+```
+
+The importer validates the report identity and head-to-head data, preserves the embedded analysis exactly, adds site navigation, and writes a manifest with source/published checksums and coverage counts. It does not connect to MongoDB or run a scrape. Commit the resulting HTML and manifest before deploying; no recurring collection job is installed.
+
 The source code lives on `master`. GitHub Pages serves the compiled files from the root of `gh-pages` at [https://www.scraper.bet/](https://www.scraper.bet/). Pushing to `master` alone does not deploy the site.
 
 From a clean checkout in PowerShell, run each command in order and stop if any command fails:
