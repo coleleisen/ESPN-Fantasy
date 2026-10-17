@@ -1,0 +1,18 @@
+{
+  "league": "DGFBL",
+  "reportGeneratedAt": "2026-10-17T17:32:01.410Z",
+  "seasons": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "primaryBasis": "season totals",
+  "trades": 83,
+  "draftPicks": 780,
+  "pickups": 2903,
+  "managerPairings": 41,
+  "sourceHtmlSha256": "a790071cac433af7a0986e53a5a84684db1e357d862e0141d8b4903352eecc7c",
+  "publishedHtmlSha256": "eadafa8070ac7eb401c942f3b1594ed29d3a70a56069d1984f7fddaea1f6be40"
+}
