@@ -1,7 +1,7 @@
 {
   "league": "DGFBL",
   "scope": "all-years",
-  "reportGeneratedAt": "2026-10-17T17:57:27.737Z",
+  "reportGeneratedAt": "2026-10-17T18:01:07.434Z",
   "seasons": [
     2019,
     2020,
@@ -17,8 +17,8 @@
   "draftPicks": 1208,
   "pickups": 4318,
   "scoredTrades": 159,
-  "managers": 17,
-  "managerPairings": 64,
-  "sourceHtmlSha256": "49dc1debaf4e0ed7da055df0a74cfd828c08ce946b3bbe4eeb60aec0f95d7caf",
-  "publishedHtmlSha256": "8467ab4a7b05da3785b918568efb2c8d0d22eb6beed7431a7c7905538e29ac1f"
+  "managers": 16,
+  "managerPairings": 59,
+  "sourceHtmlSha256": "bc4be03ab63e1a162f7fb8fd46d196d2530790b2659246431469c3b1f44eac2c",
+  "publishedHtmlSha256": "6d68f0c6c2af3bb0db8ebcb1074fc68ecd5247a6d9e8258f3bd9daed9fa0b19d"
 }
