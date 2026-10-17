@@ -71,7 +71,7 @@ npm.cmd test -- --watchAll=false --runInBand
 npm.cmd run deploy
 ```
 
-`npm.cmd run deploy` runs the production build first, then commits and pushes the contents of `build/` to `gh-pages` using your Git credentials. It requires push access to this repository. The `public/CNAME` file is copied into the build to preserve the custom domain on every deployment.
+`npm.cmd run deploy` runs the production build first, then commits and pushes the contents of `build/` to `gh-pages` using your Git credentials. It requires push access to this repository. The `public/CNAME` file is copied into the build to preserve the custom domain on every deployment. Dotfiles are included so the report's `.gitattributes` preserves its checksum when publishing from Windows.
 
 In the repository's **Settings > Pages**, keep **Deploy from a branch**, branch **gh-pages**, folder **/(root)**, and custom domain **www.scraper.bet**. Wait for the Pages deployment to finish, then open the site and refresh. The league API is hosted separately on Render; this command deploys only the frontend.
 
