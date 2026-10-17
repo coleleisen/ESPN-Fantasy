@@ -49,12 +49,18 @@ Deploy both the API and frontend to make the feature available on the hosted app
 
 ### Deploy to GitHub Pages
 
-The DGFBL GM performance report is published at [https://www.scraper.bet/reports/dgfbl/](https://www.scraper.bet/reports/dgfbl/), linked from the site header and DGFBL navigation. It is a standalone static page: all five seasons, charts, filters, player details, GM matchups and CSV/JSON downloads work without the league API. Its return link opens the main app. GitHub Pages serves the directory's `index.html`, so direct visits and refreshes work without an SPA fallback.
+The DGFBL GM reports are published as separate static pages:
 
-The committed `public/reports/dgfbl/` snapshot is copied into `build/` by the normal production build. To explicitly replace it after rebuilding the report in the companion ESPN-API project, run:
+- [All-years report](https://www.scraper.bet/reports/dgfbl-all-years/): every available completed season, 2018–19 through 2025–26, including 193 trade records (159 scored after commissioner reversals), 1,208 draft picks and 4,318 pickups.
+- [Five-season report](https://www.scraper.bet/reports/dgfbl/): the original 2021–22 through 2025–26 analysis, with unchanged scores.
+
+The site header opens the all-years report, and DGFBL navigation links to both. Each report links to the other and back to the main app. Charts, filters, player details, GM matchups and CSV/JSON downloads work without the league API. GitHub Pages serves each directory's `index.html`, so direct visits and refreshes work without an SPA fallback.
+
+The committed snapshots under `public/reports/` are copied into `build/` by the normal production build. Explicitly import the desired report after building it in the companion ESPN-API project:
 
 ```powershell
 node scripts/import-gm-report.js C:/Projects/ESPN-API/.backfills/dgfbl-gm-report/dgfbl-gm-report.html
+node scripts/import-gm-report.js C:/Projects/ESPN-API/.backfills/dgfbl-all-years-report/dgfbl-gm-report.html --all-years
 ```
 
 The importer validates the report identity and head-to-head data, preserves the embedded analysis exactly, adds site navigation, and writes a manifest with source/published checksums and coverage counts. It does not connect to MongoDB or run a scrape. Commit the resulting HTML and manifest before deploying; no recurring collection job is installed.

@@ -1,3 +1,3 @@
 # Keep the generated report checksum intact when build/ is committed to gh-pages.
-reports/dgfbl/index.html -text
-reports/dgfbl/manifest.json text eol=lf
+reports/*/index.html -text
+reports/*/manifest.json text eol=lf

@@ -18,7 +18,8 @@ function Navigator({ league, teams, leagueAverage, scoringType }) {
         <NavLink to="/matchup"><Icon name="matchup" />Matchup</NavLink>
         <NavLink to="/trade"><Icon name="exchange" />Trade<span className="nav-long-label"> analyzer</span></NavLink>
         <NavLink to="/scraper-agent"><Icon name="chat" />Scraper Agent</NavLink>
-        {league === "DGFBL" && <a href={process.env.PUBLIC_URL + "/reports/dgfbl/"}><Icon name="trophy" />GM report</a>}
+        {league === "DGFBL" && <a href={process.env.PUBLIC_URL + "/reports/dgfbl-all-years/"}><Icon name="trophy" />All-years report</a>}
+        {league === "DGFBL" && <a href={process.env.PUBLIC_URL + "/reports/dgfbl/"}><Icon name="trophy" />Five-season report</a>}
       </nav>
       <Switch>
         <Route path="/scraper-agent" render={() => <Advisor key={league} league={league} />} />

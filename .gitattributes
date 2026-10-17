@@ -1,3 +1,3 @@
 # Preserve the generated report bytes so the public manifest checksum is portable.
-public/reports/dgfbl/index.html -text
-public/reports/dgfbl/manifest.json text eol=lf
+public/reports/*/index.html -text
+public/reports/*/manifest.json text eol=lf

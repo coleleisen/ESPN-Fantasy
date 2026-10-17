@@ -1,5 +1,6 @@
 {
   "league": "DGFBL",
+  "scope": "five-seasons",
   "reportGeneratedAt": "2026-10-17T17:32:01.410Z",
   "seasons": [
     2022,
@@ -12,7 +13,9 @@
   "trades": 83,
   "draftPicks": 780,
   "pickups": 2903,
+  "scoredTrades": 83,
+  "managers": 15,
   "managerPairings": 41,
   "sourceHtmlSha256": "a790071cac433af7a0986e53a5a84684db1e357d862e0141d8b4903352eecc7c",
-  "publishedHtmlSha256": "eadafa8070ac7eb401c942f3b1594ed29d3a70a56069d1984f7fddaea1f6be40"
+  "publishedHtmlSha256": "6e4b41594d08e07b24fc5bc403dd291d173e5c90fcf2ca1ca1abb3c9e41558b1"
 }
